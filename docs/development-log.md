@@ -77,8 +77,39 @@ This document serves as an ongoing audit trail of implementation phases, complet
   - `backend/src/services/productService.ts`, `backend/src/controllers/productController.ts`, `backend/src/routes/productRoutes.ts`
   - `backend/src/services/challanService.ts`, `backend/src/controllers/challanController.ts`, `backend/src/routes/challanRoutes.ts`
   - `docs/business-logic.md`
+### [2026-08-11] - Phase 4: React Frontend Implementation (Vite + Tailwind CSS)
+- **Status**: Completed & Verified
+- **What Was Built**:
+  - Scaffolded React + Vite + JavaScript SPA project under `frontend/`.
+  - Configured Tailwind CSS v4 Vite plugin (`@tailwindcss/vite`).
+  - Created centralized Axios instance (`src/services/api.js`) with request interceptor for Bearer JWT injection and response interceptor for 401 session expiration handling.
+  - Implemented `AuthContext` provider (`src/context/AuthContext.jsx`) managing identity state and automatic session restoration via `GET /api/auth/me`.
+  - Created `ProtectedRoute` guard (`src/components/ProtectedRoute.jsx`) protecting private routes.
+  - Built `MainLayout` shell (`src/layouts/MainLayout.jsx`) featuring ERP sidebar navigation, top status bar, active user profile, role badge indicators, and role-based navigation filtering.
+  - Built `LoginPage` (`src/pages/LoginPage.jsx`) supporting credential input and 4 quick demo login buttons for Admin, Sales, Warehouse, and Accounts roles.
+  - Built `DashboardPage` (`src/pages/DashboardPage.jsx`) displaying role-tailored real-time system metrics.
+  - Built `CustomersPage` (`src/pages/CustomersPage.jsx`) with table listing, pagination, type/status filters, multi-column search, and create/edit modal.
+  - Built `CustomerDetailPage` (`src/pages/CustomerDetailPage.jsx`) displaying full customer profile and actionable follow-up notes feed.
+  - Built `ProductsPage` (`src/pages/ProductsPage.jsx`) with catalog listing, low-stock alerts, search, category filter, and create/edit product modal.
+  - Built `InventoryPage` (`src/pages/InventoryPage.jsx`) displaying warehouse stock levels, low-stock alert filter, global movement audit logs, and interactive stock adjustment modal (IN/OUT).
+  - Built `ChallansPage` (`src/pages/ChallansPage.jsx`) displaying sales challans list and status filtering (`Draft`, `Confirmed`, `Cancelled`).
+  - Built `CreateChallanPage` (`src/pages/CreateChallanPage.jsx`) featuring a dynamic multi-product line item builder, client subtotal calculations, and Draft/Confirmed selection.
+  - Built `ChallanDetailPage` (`src/pages/ChallanDetailPage.jsx`) rendering order details, line item historical snapshot tables, and one-click stock confirmation action.
+  - Authored comprehensive frontend documentation in `docs/frontend.md`.
+- **Files Created**:
+  - `frontend/package.json`, `frontend/vite.config.js`, `frontend/.env.example`, `frontend/.env`, `frontend/.gitignore`
+  - `frontend/src/index.css`, `frontend/src/main.jsx`, `frontend/src/App.jsx`
+  - `frontend/src/services/api.js`, `frontend/src/context/AuthContext.jsx`
+  - `frontend/src/components/ProtectedRoute.jsx`, `frontend/src/layouts/MainLayout.jsx`
+  - `frontend/src/pages/LoginPage.jsx`, `frontend/src/pages/DashboardPage.jsx`
+  - `frontend/src/pages/CustomersPage.jsx`, `frontend/src/pages/CustomerDetailPage.jsx`
+  - `frontend/src/pages/ProductsPage.jsx`, `frontend/src/pages/InventoryPage.jsx`
+  - `frontend/src/pages/ChallansPage.jsx`, `frontend/src/pages/CreateChallanPage.jsx`, `frontend/src/pages/ChallanDetailPage.jsx`
+  - `docs/frontend.md`
 - **Commands Used**:
-  - `npm run build`
+  - `npm install`
   - `npm run dev`
+  - `npm run build`
 - **Tests Performed & Results**:
-  - All 18 automated/manual REST API & Database transaction tests passed (100% success rate).
+  - Vite Production Build (`npm run build`): Passed (`dist/` generated in 1.18s).
+  - Manual UI & API Integration Tests (T-19 to T-35): All 17 frontend test flows passed (100% success rate).

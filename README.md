@@ -4,20 +4,21 @@ A modern, full-stack Mini ERP and CRM Operations Portal designed for wholesale a
 
 ---
 
-## Current Project Status: Phase 3 Completed & Verified
+## Current Project Status: Phase 4 Completed & Verified
 
 - **Phase 1**: Architecture, Schema, and Stack Specifications locked.
 - **Phase 2**: Backend Express foundation, PostgreSQL pool connection, Schema migrations, JWT Auth, and RBAC middleware.
-- **Phase 3**: Core Business APIs fully implemented and verified:
-  - Customer CRM APIs (CRUD, Search, Pagination, Follow-up notes).
-  - Product & Inventory APIs (Catalog, Stock adjustment logs, Low-stock tracking).
-  - Transaction-safe Sales Challan Engine (Draft vs Confirmed, `SELECT FOR UPDATE` row locking, Snapshot pricing, Stock reduction, Rollback protection, Duplicate confirmation prevention).
+- **Phase 3**: Core Business REST APIs (Customer CRM, Products, Inventory, Sales Challans Engine).
+- **Phase 4**: React + Tailwind CSS SPA Frontend completed & verified:
+  - Centralized JWT authentication state & session restoration via `AuthContext`.
+  - Protected routes & role-aware ERP sidebar navigation (`Admin`, `Sales`, `Warehouse`, `Accounts`).
+  - Full UI module coverage for Dashboard, Customer CRM (with follow-up notes feed), Products Catalog, Inventory Management (with low-stock alerts & stock adjustment modal), and Sales Challans (Draft creation & transactional stock confirmation).
 
 ---
 
 ## Technical Stack
 
-- **Frontend**: React (Vite), JavaScript, Tailwind CSS, React Router, Axios *(Phase 4)*
+- **Frontend**: React (Vite), JavaScript, Tailwind CSS, React Router, Axios
 - **Backend**: Node.js, TypeScript, Express.js, JWT (`jsonwebtoken`), bcrypt (`bcryptjs`), `pg` (PostgreSQL driver)
 - **Database**: PostgreSQL (Neon PostgreSQL), Native SQL queries (No ORM)
 - **Deployment**: Vercel (Frontend), AWS (Backend), Neon PostgreSQL (Database)
@@ -25,49 +26,24 @@ A modern, full-stack Mini ERP and CRM Operations Portal designed for wholesale a
 
 ---
 
-## Active REST API Endpoints (Phase 3 Complete)
+## Quick Start & Local Setup
 
-### Authentication & Health
-- `GET /api/health` - Public health & DB connection status
-- `POST /api/auth/login` - User login & JWT generation
-- `GET /api/auth/me` - Authenticated user profile
-
-### Customer CRM
-- `GET /api/customers` - List & search customers (`q`, `type`, `status`, `page`, `limit`)
-- `GET /api/customers/:id` - Get customer detail
-- `POST /api/customers` - Create customer (Sales / Admin)
-- `PUT /api/customers/:id` - Update customer (Sales / Admin)
-- `GET /api/customers/:id/notes` - List customer follow-up notes
-- `POST /api/customers/:id/notes` - Add follow-up note (Sales / Admin)
-
-### Products & Inventory
-- `GET /api/products` - List products (`search`, `category`, `lowStock`, `page`, `limit`)
-- `GET /api/products/:id` - Get product detail
-- `POST /api/products` - Create product (Warehouse / Admin)
-- `PUT /api/products/:id` - Update product (Warehouse / Admin)
-- `GET /api/inventory` - Inventory overview & low-stock alerts
-- `GET /api/inventory/:productId` - Product inventory detail & stock logs
-- `GET /api/inventory/:productId/movements` - Stock movement log history
-- `POST /api/inventory/:productId/adjust` - Manual stock adjustment IN/OUT (Warehouse / Admin)
-
-### Sales Challans
-- `GET /api/challans` - List sales challans (`search`, `status`, `page`, `limit`)
-- `GET /api/challans/:id` - Get sales challan detail with snapshots
-- `POST /api/challans` - Create sales challan (Draft / Confirmed) (Sales / Admin)
-- `POST /api/challans/:id/confirm` - Confirm a Draft challan with atomic stock reduction & row locking (Sales / Admin)
-
----
-
-## Quick Start & Local Backend Setup
-
+### 1. Start PostgreSQL & Backend Server
 ```bash
 cd backend
 npm install
 npm run db:init
 npm run db:seed
-npm run build
 npm run dev
 ```
+
+### 2. Start React Frontend SPA
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
@@ -77,6 +53,7 @@ npm run dev
 - [Database Schema & ERD Spec](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/database.md)
 - [Authentication & RBAC Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/authentication.md)
 - [Business Logic & Transaction Specs](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/business-logic.md)
+- [Frontend Architecture Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/frontend.md)
 - [Testing & QA Suite Log](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/testing.md)
 - [Design Decisions & Interview Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/decisions.md)
 - [Development Log](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/development-log.md)
