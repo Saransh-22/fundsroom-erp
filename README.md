@@ -4,15 +4,17 @@ A modern, full-stack Mini ERP and CRM Operations Portal designed for wholesale a
 
 ---
 
-## Current Project Status: Phase 4 Completed & Verified
+## Current Project Status: Phase 5 Completed & Prepared for Production
 
 - **Phase 1**: Architecture, Schema, and Stack Specifications locked.
 - **Phase 2**: Backend Express foundation, PostgreSQL pool connection, Schema migrations, JWT Auth, and RBAC middleware.
 - **Phase 3**: Core Business REST APIs (Customer CRM, Products, Inventory, Sales Challans Engine).
-- **Phase 4**: React + Tailwind CSS SPA Frontend completed & verified:
-  - Centralized JWT authentication state & session restoration via `AuthContext`.
-  - Protected routes & role-aware ERP sidebar navigation (`Admin`, `Sales`, `Warehouse`, `Accounts`).
-  - Full UI module coverage for Dashboard, Customer CRM (with follow-up notes feed), Products Catalog, Inventory Management (with low-stock alerts & stock adjustment modal), and Sales Challans (Draft creation & transactional stock confirmation).
+- **Phase 4**: React + Tailwind CSS SPA Frontend completed & verified.
+- **Phase 5**: Production Deployment Architecture & Security Audit completed:
+  - Production architecture specified: React SPA on Vercel -> Node/Express on AWS -> Neon PostgreSQL.
+  - SSL connection handling configured for Neon cloud database pooling.
+  - Production environment variable matrix defined with strict secret separation.
+  - Complete end-to-end QA validation matrix & technical interview defense guide authored in `docs/deployment.md`.
 
 ---
 
@@ -54,6 +56,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 - [Authentication & RBAC Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/authentication.md)
 - [Business Logic & Transaction Specs](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/business-logic.md)
 - [Frontend Architecture Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/frontend.md)
+- [Production Deployment Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/deployment.md)
 - [Testing & QA Suite Log](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/testing.md)
 - [Design Decisions & Interview Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/decisions.md)
 - [Development Log](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/development-log.md)

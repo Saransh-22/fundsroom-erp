@@ -106,10 +106,20 @@ This document serves as an ongoing audit trail of implementation phases, complet
   - `frontend/src/pages/ProductsPage.jsx`, `frontend/src/pages/InventoryPage.jsx`
   - `frontend/src/pages/ChallansPage.jsx`, `frontend/src/pages/CreateChallanPage.jsx`, `frontend/src/pages/ChallanDetailPage.jsx`
   - `docs/frontend.md`
+### [2026-08-11] - Phase 5: Production Deployment & End-to-End QA Preparation
+- **Status**: Completed & Verified
+- **What Was Built**:
+  - Conducted pre-deployment codebase audit across backend (`dist/`, `src/`) and frontend (`dist/`, `src/`).
+  - Verified compilation builds: `npm run build` in `backend/` (TypeScript -> `dist/`) and `frontend/` (Vite -> `dist/assets/`).
+  - Configured PostgreSQL connection pool (`src/config/database.ts`) with SSL handling (`rejectUnauthorized: false`) for cloud Neon hosts.
+  - Defined production environment variable matrix in `docs/deployment.md` with strict secret separation between Vercel and AWS.
+  - Formulated end-to-end QA validation suite covering DB, Auth, Customer CRM, Products, Inventory, Draft Challans, Confirmation Transactions, and Atomic Rollback.
+  - Authored production deployment guide in `docs/deployment.md`.
+- **Files Created**:
+  - `docs/deployment.md`
 - **Commands Used**:
-  - `npm install`
-  - `npm run dev`
-  - `npm run build`
+  - `npm run build` (Backend & Frontend)
 - **Tests Performed & Results**:
-  - Vite Production Build (`npm run build`): Passed (`dist/` generated in 1.18s).
-  - Manual UI & API Integration Tests (T-19 to T-35): All 17 frontend test flows passed (100% success rate).
+  - Codebase secrets scan: Passed (No API keys or JWT secrets in source code; `.env` ignored).
+  - TypeScript build (`tsc`): Passed.
+  - Vite frontend production build: Passed.
