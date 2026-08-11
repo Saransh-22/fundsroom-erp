@@ -59,8 +59,13 @@ frontend/src/
 
 ---
 
-### Concept 4: Role-Aware UI Rendering
-- **What it is**: Hiding/showing sidebar links, buttons, and action modals based on `user.role`.
-- **Why we use it here**: Keeps the UI clean and relevant for each user persona (`Admin`, `Sales`, `Warehouse`, `Accounts`).
+## 3. JWT `localStorage` Security Trade-off Analysis
+
+### Why this project uses `localStorage` for JWT
+In this case-study single page application (SPA), storing the JWT token in `localStorage` under `fundsroom_token` allows persistent session authentication across browser reloads without requiring complex cookie domain setups or back-channel refresh token infrastructure.
+
+### The Security Trade-off (XSS Risk)
+- **Trade-off**: Data stored in `localStorage` is accessible to any JavaScript code executing within the same origin domain. If an attacker succeeds in injecting malicious scripts via an **XSS (Cross-Site Scripting)** vulnerability, they could read `localStorage.getItem('fundsroom_token')` and exfiltrate the user's JWT.
+- **Enterprise Alternative (HTTP-Only SameSite Cookies)**: In high-security production environments, JWTs or session tokens are typically transmitted via `HttpOnly`, `Secure`, `SameSite=Strict` cookies. `HttpOnly` prevents client-side JavaScript from accessing the cookie, effectively mitigating token exfiltration via XSS.
 - **How to explain in an interview**:
-  > *"We conditionally render UI elements based on the authenticated user's role claim. For example, Warehouse managers see product edit modals, while Sales users see sales challan creation forms."*
+  > *"We store the JWT in `localStorage` for simple stateless session persistence across SPA reloads. The security trade-off is that `localStorage` can be read by JavaScript if an XSS vulnerability exists. In a production enterprise system, we would store authentication tokens in `HttpOnly` cookies to block JavaScript access."*
