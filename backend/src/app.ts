@@ -1,0 +1,35 @@
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import { checkDatabaseConnection } from './config/database';
+import authRoutes from './routes/authRoutes';
+import { errorHandler } from './middleware/error';
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/api/health', async (req: Request, res: Response) => {
+  const isDbConnected = await checkDatabaseConnection();
+  if (isDbConnected) {
+    res.status(200).json({
+      success: true,
+      status: 'ok',
+      message: 'Fundsroom ERP API service is running',
+      database: 'connected',
+    });
+  } else {
+    res.status(503).json({
+      success: false,
+      status: 'error',
+      message: 'API is running but database is disconnected',
+      database: 'disconnected',
+    });
+  }
+});
+
+app.use('/api/auth', authRoutes);
+
+app.use(errorHandler);
+
+export default app;
