@@ -2,6 +2,9 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { checkDatabaseConnection } from './config/database';
 import authRoutes from './routes/authRoutes';
+import customerRoutes from './routes/customerRoutes';
+import productRoutes from './routes/productRoutes';
+import challanRoutes from './routes/challanRoutes';
 import { errorHandler } from './middleware/error';
 
 const app = express();
@@ -29,6 +32,9 @@ app.get('/api/health', async (req: Request, res: Response) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api', productRoutes);
+app.use('/api/challans', challanRoutes);
 
 app.use(errorHandler);
 

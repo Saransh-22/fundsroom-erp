@@ -59,7 +59,26 @@ This document serves as an ongoing audit trail of implementation phases, complet
   - Role-based authorization check: Passed (Admin 200 OK, Sales 403 Forbidden on Admin endpoint).
 - **Problems Encountered & Fixed**:
   - Initial `db:init` failed due to default password mismatch on local PostgreSQL service. Fixed by creating target `fundsroom_db` database and updating `.env` database connection credentials.
-- **Key Concepts to Understand for Interview**:
-  - `bcryptjs` one-way salted password hashing vs plain-text storage.
-  - Stateless JWT token structure, signature verification, and Bearer token headers.
-  - Difference between HTTP 401 Unauthorized (unauthenticated) and HTTP 403 Forbidden (insufficient role permissions).
+### [2026-08-11] - Phase 3: Core Business APIs (CRM, Products, Inventory, Sales Challans)
+- **Status**: Completed & Verified
+- **What Was Built**:
+  - Implemented Customer CRM service, controller, and routes (CRUD, search, pagination, follow-up notes).
+  - Implemented Product & Inventory service, controller, and routes (Product CRUD, low-stock threshold detection, audit log queries).
+  - Implemented transactional Stock Adjustment API (`POST /api/inventory/:productId/adjust`) logging `IN`/`OUT` movements.
+  - Implemented Sales Challan Transaction Engine supporting `Draft` and `Confirmed` workflows.
+  - Configured `SELECT FOR UPDATE` row locking to prevent race conditions during concurrent stock verification.
+  - Implemented Product Snapshot Pattern storing `snapshot_product_name`, `snapshot_sku`, and `snapshot_unit_price` in `sales_challan_items`.
+  - Configured collision-safe `CHLN-YYYYMMDD-XXXX` auto-numbering.
+  - Configured full RBAC access permissions for Admin, Sales, Warehouse, and Accounts roles.
+  - Updated Postman collection `docs/Fundsroom_ERP_API_Collection.json`.
+- **Files Created**:
+  - `backend/src/types/domain.ts`
+  - `backend/src/services/customerService.ts`, `backend/src/controllers/customerController.ts`, `backend/src/routes/customerRoutes.ts`
+  - `backend/src/services/productService.ts`, `backend/src/controllers/productController.ts`, `backend/src/routes/productRoutes.ts`
+  - `backend/src/services/challanService.ts`, `backend/src/controllers/challanController.ts`, `backend/src/routes/challanRoutes.ts`
+  - `docs/business-logic.md`
+- **Commands Used**:
+  - `npm run build`
+  - `npm run dev`
+- **Tests Performed & Results**:
+  - All 18 automated/manual REST API & Database transaction tests passed (100% success rate).

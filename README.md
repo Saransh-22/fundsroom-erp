@@ -4,10 +4,14 @@ A modern, full-stack Mini ERP and CRM Operations Portal designed for wholesale a
 
 ---
 
-## Current Project Status: Phase 2 Completed & Verified
+## Current Project Status: Phase 3 Completed & Verified
 
 - **Phase 1**: Architecture, Schema, and Stack Specifications locked.
-- **Phase 2**: Backend Express initialization, PostgreSQL pool connection, Schema migrations, Password hashing (`bcryptjs`), JWT Authentication, Role-based authorization middleware (RBAC), and `/api/health` & `/api/auth/me` endpoints fully implemented and verified.
+- **Phase 2**: Backend Express foundation, PostgreSQL pool connection, Schema migrations, JWT Auth, and RBAC middleware.
+- **Phase 3**: Core Business APIs fully implemented and verified:
+  - Customer CRM APIs (CRUD, Search, Pagination, Follow-up notes).
+  - Product & Inventory APIs (Catalog, Stock adjustment logs, Low-stock tracking).
+  - Transaction-safe Sales Challan Engine (Draft vs Confirmed, `SELECT FOR UPDATE` row locking, Snapshot pricing, Stock reduction, Rollback protection, Duplicate confirmation prevention).
 
 ---
 
@@ -21,64 +25,49 @@ A modern, full-stack Mini ERP and CRM Operations Portal designed for wholesale a
 
 ---
 
-## Environment Variables Documentation
+## Active REST API Endpoints (Phase 3 Complete)
 
-Set up in `backend/.env`:
+### Authentication & Health
+- `GET /api/health` - Public health & DB connection status
+- `POST /api/auth/login` - User login & JWT generation
+- `GET /api/auth/me` - Authenticated user profile
 
-| Environment Variable | Description | Example / Default Value |
-|---|---|---|
-| `PORT` | Port number for Express server | `5000` |
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/fundsroom_db` |
-| `JWT_SECRET` | Secret key for signing JSON Web Tokens | `super_secret_jwt_key_fundsroom_2026` |
-| `FRONTEND_URL` | Allowed origin URL for CORS policy | `http://localhost:5173` |
-| `NODE_ENV` | Environment mode (`development` / `production`) | `development` |
+### Customer CRM
+- `GET /api/customers` - List & search customers (`q`, `type`, `status`, `page`, `limit`)
+- `GET /api/customers/:id` - Get customer detail
+- `POST /api/customers` - Create customer (Sales / Admin)
+- `PUT /api/customers/:id` - Update customer (Sales / Admin)
+- `GET /api/customers/:id/notes` - List customer follow-up notes
+- `POST /api/customers/:id/notes` - Add follow-up note (Sales / Admin)
+
+### Products & Inventory
+- `GET /api/products` - List products (`search`, `category`, `lowStock`, `page`, `limit`)
+- `GET /api/products/:id` - Get product detail
+- `POST /api/products` - Create product (Warehouse / Admin)
+- `PUT /api/products/:id` - Update product (Warehouse / Admin)
+- `GET /api/inventory` - Inventory overview & low-stock alerts
+- `GET /api/inventory/:productId` - Product inventory detail & stock logs
+- `GET /api/inventory/:productId/movements` - Stock movement log history
+- `POST /api/inventory/:productId/adjust` - Manual stock adjustment IN/OUT (Warehouse / Admin)
+
+### Sales Challans
+- `GET /api/challans` - List sales challans (`search`, `status`, `page`, `limit`)
+- `GET /api/challans/:id` - Get sales challan detail with snapshots
+- `POST /api/challans` - Create sales challan (Draft / Confirmed) (Sales / Admin)
+- `POST /api/challans/:id/confirm` - Confirm a Draft challan with atomic stock reduction & row locking (Sales / Admin)
 
 ---
 
 ## Quick Start & Local Backend Setup
 
-### Prerequisites
-- Node.js (v18 or higher)
-- PostgreSQL database instance
-
-### Backend Installation & Setup Commands
 ```bash
 cd backend
-
-# Install dependencies
 npm install
-
-# Initialize PostgreSQL Schema (Creates tables, indexes, constraints)
 npm run db:init
-
-# Seed initial Users, Customers, and Products
 npm run db:seed
-
-# Build TypeScript code
 npm run build
-
-# Start Express Server in Development Mode
 npm run dev
 ```
-
----
-
-## Test Credentials
-
-| Persona | Email | Password | Role Permissions |
-|---|---|---|---|
-| Admin | admin@fundsroom.com | Admin@123 | Complete System Access |
-| Sales User | sales@fundsroom.com | Sales@123 | Customer CRM & Sales Challans |
-| Warehouse Mgr | warehouse@fundsroom.com | Warehouse@123 | Product Catalog & Inventory Logs |
-| Accounts User | accounts@fundsroom.com | Accounts@123 | Financial Audit & Read-only Views |
-
----
-
-## Active API Endpoints (Phase 2)
-
-- `GET /api/health` - System health check & database connectivity verification
-- `POST /api/auth/login` - User authentication, password verification, & JWT issuance
-- `GET /api/auth/me` - Authenticated profile retrieval (requires `Authorization: Bearer <token>`)
 
 ---
 
@@ -87,6 +76,7 @@ npm run dev
 - [Architecture Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/architecture.md)
 - [Database Schema & ERD Spec](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/database.md)
 - [Authentication & RBAC Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/authentication.md)
+- [Business Logic & Transaction Specs](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/business-logic.md)
 - [Testing & QA Suite Log](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/testing.md)
 - [Design Decisions & Interview Guide](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/decisions.md)
 - [Development Log](file:///c:/Users/saran/OneDrive/Documents/project_fundsroom/docs/development-log.md)
